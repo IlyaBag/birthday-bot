@@ -6,12 +6,15 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from decouple import config
 
+from handlers.start import router as start_router
+
 
 bot = Bot(
     token=config('TOKEN'),
     default=DefaultBotProperties(parse_mode=ParseMode.HTML)
 )
 dp = Dispatcher()
+dp.include_router(start_router)
 
 logging.basicConfig(
     level=logging.INFO,
