@@ -6,6 +6,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from decouple import config
 
+from handlers.birthdays import router as birthday_router
 from handlers.start import router as start_router
 
 
@@ -15,6 +16,7 @@ bot = Bot(
 )
 dp = Dispatcher()
 dp.include_router(start_router)
+dp.include_router(birthday_router)
 
 logging.basicConfig(
     level=logging.INFO,
