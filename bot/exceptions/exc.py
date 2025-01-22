@@ -1,0 +1,2 @@
+class StoragePathError(Exception):
+    pass
