@@ -1,31 +1,28 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher
-from aiogram.client.default import DefaultBotProperties
-from aiogram.enums import ParseMode
-from decouple import config
-
+from create_bot import bot, dp as dispatcher
 from handlers.birthdays import router as birthday_router
 from handlers.start import router as start_router
+from keyboards.command_menu_kb import set_commands
 
-
-bot = Bot(
-    token=config('TOKEN'),
-    default=DefaultBotProperties(parse_mode=ParseMode.HTML)
-)
-dp = Dispatcher()
-dp.include_router(start_router)
-dp.include_router(birthday_router)
 
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s | %(levelname)s | %(name)s | %(message)s'
 )
 
+async def start_bot():
+    await set_commands()
 
 async def main():
-    await dp.start_polling(bot)
+    dispatcher.include_router(start_router)
+    dispatcher.include_router(birthday_router)
+    dispatcher.startup.register(start_bot)
+    try:
+        await dispatcher.start_polling(bot)
+    finally:
+        await bot.session.close()
 
 
 if __name__ == '__main__':
