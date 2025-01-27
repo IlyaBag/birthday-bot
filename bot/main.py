@@ -1,10 +1,11 @@
 import asyncio
 import logging
 
-from create_bot import bot, dp as dispatcher
+from create_bot import bot, dp as dispatcher, scheduler
 from handlers.birthdays import router as birthday_router
 from handlers.start import router as start_router
 from keyboards.command_menu_kb import set_commands
+from utils.scheduled_tasks import add_sched_tasks
 
 
 logging.basicConfig(
@@ -19,6 +20,8 @@ async def main():
     dispatcher.include_router(start_router)
     dispatcher.include_router(birthday_router)
     dispatcher.startup.register(start_bot)
+    add_sched_tasks()
+    scheduler.start()
     try:
         await dispatcher.start_polling(bot)
     finally:
