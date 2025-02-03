@@ -1,9 +1,8 @@
-from decouple import config  # type: ignore
-
 from create_bot import bot, scheduler
 from repo.json_storage import get_person_by_birthday
 from utils.date import get_today_date_str
 from utils.messages import send_msg
+from utils.users import get_all_users_ids
 
 
 NOTIFICATION_DAYS = 'mon - sun'
@@ -17,7 +16,7 @@ async def send_birthday_notification() -> None:
     today = get_today_date_str()
     person = get_person_by_birthday(today)
     if person is not None:
-        users = config('USERS').split(',')
+        users = get_all_users_ids()
         await send_msg(bot=bot,
                  msg=f'🎂Сегодня день рождения отмечает:\n{person}',
                  users_id=users)
