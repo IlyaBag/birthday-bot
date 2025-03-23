@@ -15,7 +15,7 @@ def fetch_birthday_person(date: str | None = None) -> str:
     """Fetch a birthday person from the storage. If the `date` argument is
     omitted, then today's date is taken."""
 
-    if date is None:
+    if date is None:                         # TODO: validate date from args
         date = get_today_date_str()
     person = get_person_by_birthday(date)
     if person is None:

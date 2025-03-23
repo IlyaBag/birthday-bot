@@ -4,7 +4,7 @@ import logging
 from create_bot import bot, dp as dispatcher, scheduler
 from handlers.birthdays import router as birthday_router
 from handlers.start import router as start_router
-from keyboards.command_menu_kb import set_commands
+# from keyboards.command_menu_kb import set_commands
 from utils.scheduled_tasks import add_sched_tasks
 
 
@@ -14,7 +14,9 @@ logging.basicConfig(
 )
 
 async def start_bot():
-    await set_commands()
+    # await set_commands()
+    # await bot.delete_my_commands()
+    ...
 
 async def main():
     dispatcher.include_router(start_router)
