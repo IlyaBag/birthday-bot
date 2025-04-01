@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 from create_bot import bot, dp as dispatcher, scheduler
+from handlers.bash_exec import router as bash_router
 from handlers.birthdays import router as birthday_router
 from handlers.start import router as start_router
 # from keyboards.command_menu_kb import set_commands
@@ -19,9 +20,8 @@ async def start_bot():
     ...
 
 async def main():
-    dispatcher.include_router(start_router)
-    dispatcher.include_router(birthday_router)
-    dispatcher.startup.register(start_bot)
+    dispatcher.include_routers(bash_router, birthday_router, start_router)
+    # dispatcher.startup.register(start_bot)
     add_sched_tasks()
     scheduler.start()
     try:
