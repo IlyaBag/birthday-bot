@@ -5,7 +5,6 @@ from utils.messages import send_msg
 from utils.users import get_all_users_ids
 
 
-NOTIFICATION_DAYS = 'mon - sun'
 NOTIFICATION_TIME = (9, 6, 0)  # time of the day in tuple[hour, minute, second]
 
 
@@ -25,5 +24,4 @@ def add_sched_tasks() -> None:
     hour, minute, second = NOTIFICATION_TIME
     scheduler.add_job(send_birthday_notification,
                       trigger='cron',
-                      day_of_week=NOTIFICATION_DAYS,
                       hour=hour, minute=minute, second=second)
