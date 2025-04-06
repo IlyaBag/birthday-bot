@@ -1,6 +1,8 @@
 import asyncio
 import logging
 
+from decouple import config
+
 from create_bot import bot, dp as dispatcher, scheduler
 from handlers.bash_exec import router as bash_router
 from handlers.birthdays import router as birthday_router
@@ -11,7 +13,9 @@ from utils.scheduled_tasks import add_sched_tasks
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s'
+    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
+    handlers=[logging.StreamHandler(),
+              logging.FileHandler(filename=config('LOGFILENAME'))],
 )
 
 async def start_bot():
