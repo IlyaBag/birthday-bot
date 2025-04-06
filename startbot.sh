@@ -1,0 +1,1 @@
+$(pwd)/.venv/bin/python $(pwd)/bot/main.py
