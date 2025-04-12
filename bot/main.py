@@ -7,7 +7,6 @@ from create_bot import bot, dp as dispatcher, scheduler
 from handlers.bash_exec import router as bash_router
 from handlers.birthdays import router as birthday_router
 from handlers.start import router as start_router
-# from keyboards.command_menu_kb import set_commands
 from utils.scheduled_tasks import add_sched_tasks
 
 
@@ -19,15 +18,12 @@ logging.basicConfig(
 )
 
 async def start_bot():
-    # await set_commands()
-    # await bot.delete_my_commands()
-    ...
+    add_sched_tasks()
+    scheduler.start()
 
 async def main():
     dispatcher.include_routers(bash_router, birthday_router, start_router)
-    # dispatcher.startup.register(start_bot)
-    add_sched_tasks()
-    scheduler.start()
+    dispatcher.startup.register(start_bot)
     try:
         await dispatcher.start_polling(bot)
     finally:
