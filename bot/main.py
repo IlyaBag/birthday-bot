@@ -31,6 +31,7 @@ async def main():
     try:
         await dispatcher.start_polling(bot)
     finally:
+        scheduler.shutdown()
         await bot.session.close()
 
 

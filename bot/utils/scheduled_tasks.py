@@ -5,7 +5,10 @@ from utils.messages import send_msg
 from utils.users import get_all_users_ids
 
 
-NOTIFICATION_TIME = (9, 6, 0)  # time of the day in tuple[hour, minute, second]
+# time of the day in tuple[hour, minute, second] for birthday notifications
+NOTIFICATION_TIME = (7, 56, 0)
+# permissible delay in seconds to scheduled task executing
+MISSFIRE_GRACE_TIME_SEC = 60 * 30
 
 
 async def send_birthday_notification() -> None:
@@ -24,4 +27,5 @@ def add_sched_tasks() -> None:
     hour, minute, second = NOTIFICATION_TIME
     scheduler.add_job(send_birthday_notification,
                       trigger='cron',
+                      misfire_grace_time=MISSFIRE_GRACE_TIME_SEC,
                       hour=hour, minute=minute, second=second)
