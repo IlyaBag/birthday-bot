@@ -25,7 +25,7 @@ date_regex = r'([0][1-9]|[12][0-9]|[3][01])\.([0][1-9]|[1][0-2])'
 
 @router.message(F.text.regexp(date_regex))
 async def get_certain_day_birthday(msg: Message) -> None:
-    date = msg.text or ''  # empty string replaces 'None' in msg.text for mypy
+    date = msg.text
     person = fetch_birthday_person(date)
     await msg.answer(person)
 
