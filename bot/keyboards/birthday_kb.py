@@ -5,10 +5,10 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder
 def main_menu_kb() -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardBuilder()
     keyboard.button(text='Сегодня')
-    keyboard.button(text='Другой день')
     keyboard.button(text='Ближайший')
-    keyboard.adjust(1)
+    keyboard.button(text='🔎 Поиск')
+    keyboard.adjust(2, 1)
     return keyboard.as_markup(
         resize_keyboard=True,
-        input_field_placeholder='Интересуют дни рождения?'
+        input_field_placeholder='Нажми на кнопку'
     )

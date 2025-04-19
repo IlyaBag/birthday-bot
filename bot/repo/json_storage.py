@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 import logging
 import os
+import re
 import shutil
 
 from aiogram.types import User
@@ -48,6 +49,20 @@ def get_person_by_birthday(date: str) -> str | None:
     all_birthdays = get_all_birthdays()
     birthday = all_birthdays.get(date)
     return birthday
+
+def get_birthday_by_person(name: str) -> str:
+    '''Принимает имя человека и ищет его в списке дней рождения. Если есть
+    совпадения, то возвращает список из дат дней рождения и полных имён
+    человека (или нескольких человек с днём рождения в один день). Если имя
+    не найдено, то возвращается пустая строка.'''
+
+    all_birthdays = get_all_birthdays()
+    finded = []
+    for date, fullname in all_birthdays.items():
+        if re.search(name.title() + r'([^а-я]|$)', fullname):
+            match_ = f'<b>{date}</b>: {fullname}'
+            finded.append(match_)
+    return '\n'.join(finded)
 
 def get_all_users() -> list[dict]:
     storage = _open_storage()
