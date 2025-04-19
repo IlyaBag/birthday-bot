@@ -8,6 +8,7 @@ from handlers.bash_exec import router as bash_router
 from handlers.birthdays import router as birthday_router
 from handlers.birthday_search import router as surname_router
 from handlers.start import router as start_router
+from keyboards.command_menu_kb import set_commands
 from utils.scheduled_tasks import add_sched_tasks
 
 
@@ -21,6 +22,7 @@ logging.basicConfig(
 async def start_bot():
     add_sched_tasks()
     scheduler.start()
+    await set_commands()
 
 async def main():
     dispatcher.include_routers(bash_router, birthday_router, start_router,
