@@ -16,4 +16,5 @@ async def cmd_start(msg: Message) -> None:
     if user.id not in users:
         save_new_user(user)
     name = user.first_name or 'друг'
-    await msg.answer(f'Привет, {name}!', reply_markup=main_menu_kb())
+    await msg.answer(f'Привет, {name}!',
+                     reply_markup=main_menu_kb(user_id=user.id))

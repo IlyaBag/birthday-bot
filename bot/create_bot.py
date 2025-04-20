@@ -6,6 +6,8 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from decouple import config  # type: ignore
 
 
+admins = tuple(map(int, config('ADMINS').split(',')))
+
 bot = Bot(
     token=config('TOKEN'),
     default=DefaultBotProperties(parse_mode=ParseMode.HTML)

@@ -40,7 +40,8 @@ async def find_birthday_by_date(msg: Message, state: FSMContext) -> None:
     person = fetch_birthday_person(date)
     await bot.delete_messages(chat_id=msg.chat.id,
                               message_ids=data.get('del_msg_ids'))
-    await msg.answer(person, reply_markup=main_menu_kb())
+    await msg.answer(person,
+                     reply_markup=main_menu_kb(user_id=msg.from_user.id))
     await state.clear()
 
 
@@ -56,5 +57,6 @@ async def find_birthday_by_name(msg: Message, state: FSMContext):
             birthday = 'Извините, такого имени нет в моих записях 😞'
     await bot.delete_messages(chat_id=msg.chat.id,
                               message_ids=data.get('del_msg_ids'))
-    await msg.answer(birthday, reply_markup=main_menu_kb())
+    await msg.answer(birthday,
+                     reply_markup=main_menu_kb(user_id=msg.from_user.id))
     await state.clear()
