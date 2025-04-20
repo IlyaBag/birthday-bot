@@ -21,12 +21,13 @@ router = Router()
 @router.message(F.text == '🔎 Поиск')
 async def find_birthday_or_person(msg: Message, state: FSMContext) -> None:
     await state.clear()
-    await msg.answer(
-        'Искать можно по имени или по дате.\n' \
+    answer = await msg.answer(
+        'Давай поищем. Искать можно по имени или по дате.\n' \
         'Напиши фамилию или имя человека, либо число и месяц в виде ДД.ММ, ' \
         'например 29.02',
         reply_markup=ReplyKeyboardRemove()
     )
+    await state.set_data({'del_msg_ids': (msg.message_id, answer.message_id)})
     await state.set_state(Search.query)
 
 
@@ -34,8 +35,11 @@ date_regex = r'([0][1-9]|[12][0-9]|[3][01])\.([0][1-9]|[1][0-2])'
 
 @router.message(F.text.regexp(date_regex), Search.query)
 async def find_birthday_by_date(msg: Message, state: FSMContext) -> None:
+    data = await state.get_data()
     date = msg.text
     person = fetch_birthday_person(date)
+    await bot.delete_messages(chat_id=msg.chat.id,
+                              message_ids=data.get('del_msg_ids'))
     await msg.answer(person, reply_markup=main_menu_kb())
     await state.clear()
 
@@ -50,5 +54,7 @@ async def find_birthday_by_name(msg: Message, state: FSMContext):
         birthday = get_birthday_by_person(data.get('name'))
         if not birthday:
             birthday = 'Извините, такого имени нет в моих записях 😞'
+    await bot.delete_messages(chat_id=msg.chat.id,
+                              message_ids=data.get('del_msg_ids'))
     await msg.answer(birthday, reply_markup=main_menu_kb())
     await state.clear()
