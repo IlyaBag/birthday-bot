@@ -10,6 +10,7 @@ def main_menu_kb(user_id: int) -> ReplyKeyboardMarkup:
     keyboard.button(text='🔎 Поиск')
     if user_id in admins:
         keyboard.button(text='temp')
-    keyboard.adjust(2, 1)
+        keyboard.button(text='logs')
+    keyboard.adjust(2, 1, 2)
     return keyboard.as_markup(resize_keyboard=True,
                               input_field_placeholder='Нажми на кнопку')
