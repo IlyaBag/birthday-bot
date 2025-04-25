@@ -4,13 +4,14 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import CallbackQuery, Message
 
 from create_bot import bot
+from keyboards import birthday_kb as kb
 from keyboards.logs_kb import logs_kb
 from utils.cli_commands import get_logs, get_raspberry_cpu_temp
 
 
 router = Router()
 
-@router.message(F.text == 'temp')
+@router.message(F.text == kb.BTN_TEMP)
 async def check_cpu_temp(msg: Message) -> None:
     temp = get_raspberry_cpu_temp()
     await msg.answer(temp)
@@ -20,7 +21,7 @@ class LogView(StatesGroup):
     viewing = State()
 
 
-@router.message(F.text.startswith('logs'))
+@router.message(F.text.startswith(kb.BTN_LOGS))
 async def fetch_logs(msg: Message, state: FSMContext) -> None:
     await state.clear()
     args = None

@@ -6,7 +6,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.utils.chat_action import ChatActionSender
 
 from create_bot import bot
-from keyboards.birthday_kb import main_menu_kb
+from keyboards.birthday_kb import BTN_SEARCH, main_menu_kb
 from repo.json_storage import get_birthday_by_person
 from utils.date import fetch_birthday_person
 
@@ -18,7 +18,7 @@ class Search(StatesGroup):
 router = Router()
 
 
-@router.message(F.text == '🔎 Поиск')
+@router.message(F.text == BTN_SEARCH)
 async def find_birthday_or_person(msg: Message, state: FSMContext) -> None:
     await state.clear()
     answer = await msg.answer(
